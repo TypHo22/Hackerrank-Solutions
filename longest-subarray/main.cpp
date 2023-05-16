@@ -7,192 +7,47 @@
  * The function accepts INTEGER_ARRAY arr as parameter.
  */
 
-int evaluate(std::map<int,int>& subArray)
-{
-    if(subArray.empty())
-        return 0;
-
-    if(subArray.size() == 1)
-        return subArray.begin()->second;
-    else
-        return subArray.begin()->second + std::prev(subArray.end())->second;
-}
-
-
-bool addToSubArray(int val,std::map<int,int>& subArray)
-{
-    auto it = subArray.find(val) ;
-    if(it == subArray.end())
-    {
-        subArray.insert({val,1});
-    }
-    else
-    {
-        it->second++;
-    }
-
-    if(subArray.size() == 2)
-    {
-        if(std::abs(subArray.begin()->first - std::prev(subArray.end())->first) != 1)
-        {
-
-            return false;
-        }
-    }
-
-    return true;
-}
 
 int longestSubarray(std::vector<int> arr) {
+    int n = arr.size();
+    int ans = 0;
 
-    std::set<int> lengthSubArrays;
-    std::map<int,int> subArray;//subArray can only consist of TWO distinct numbers
-
-    for(size_t a = 0; a < arr.size(); a++)
+    for(size_t i = 0; i < n; i++)
     {
-        std::map<int,int>::iterator it = subArray.find(arr[a]);
+        std::vector<int> w;
+        int cnt = 0;
 
-        //check if value is already in subArray
-        if(it == subArray.end())
+        for(size_t j = i; j < n; j++)
         {
-            int lastInsert;
-            if(subArray.size() < 2)
+            auto it = std::find_if(w.begin(),w.end(),[&arr,j](const int val){return arr[j] == val;});
+
+            if(it != w.end())
             {
-                lastInsert = arr[a];
-                subArray.insert({arr[a],1});
-
-                if(subArray.size() == 2)
-                {
-                    const int diff = std::abs(subArray.begin()->first - std::prev(subArray.end())->first);
-                    if(diff != 1) //difference is not 1 (we do not have to check for zero because map ensures that each key is unique)
-                    {
-                        lengthSubArrays.insert(evaluate(subArray) - 1);
-                        subArray.clear();
-
-                        subArray.insert({lastInsert,1});
-                        auto itA = subArray.find(arr[a]);
-                        if(itA == subArray.end())
-                            subArray.insert({arr[a],1});
-                        else
-                            subArray.find(arr[a])->second++;
-
-                        continue;
-                    }
-                }
-            }
-            else //we need two distinct numbers, a third one would be wrong
-            {
-                lengthSubArrays.insert(evaluate(subArray));
-                subArray.clear();
-                subArray.insert({lastInsert,1});
-                auto itA = subArray.find(arr[a]);
-                if(itA == subArray.end())
-                    subArray.insert({arr[a],1});
-                else
-                    subArray.find(arr[a])->second++;
-
+                cnt++;
                 continue;
             }
-        }
-        else
-        {
-            it->second++;
-        }
 
-        lengthSubArrays.insert(evaluate(subArray));
-
-    }
-
-    return *lengthSubArrays.rbegin();
-}
-/*
-void insertSubArray(const int val, std::map<int,int>& subArray, std::set<int>& length, std::pair<int,int>& lastInsert)
-{
-    if(subArray.size() == 0)
-    {
-        subArray.insert({val,1});
-        lastInsert = {val, 1};
-    }
-    else if(subArray.size() == 1)
-    {
-        auto it = subArray.find(val);
-
-        if(it == subArray.end()) //not already in
-        {
-            if(std::abs(subArray.begin()->second - val) != 1) //not allowed to continue with that subArray
+            if(w.size() == 0)
+                w.push_back(arr[j]);
+            else if(w.size() == 1)
             {
-                length.insert(evaluate(subArray));//evaluate current subArray
-                subArray.clear();
-                subArray.insert({val,1});
-                lastInsert = {val,1};
-            }
-            else //allowed to be inserted because diff == 1
-            {
-                subArray.insert({val,1});
-                lastInsert = {val,1};
-            }
-        }
-        else//already in
-        {
-            it->second++;
-            lastInsert = *it;
-        }
-    }
-    else if(subArray.size() == 2)
-    {
-        auto it = subArray.find(val);
-
-        if(it == subArray.end()) // not already in, because of third number we have to start a new subArray
-        {
-            if(std::abs(lastInsert.first - val) != 1)
-            {
-                length.insert(evaluate(subArray));//evaluate current subArray
-                subArray.clear();
-                subArray.insert({val,1});
-                lastInsert = {val,1};
+                if(std::abs(w[0] - arr[j]) > 1)
+                    break;
+                else
+                    w.push_back(arr[j]);
             }
             else
-            {
-                length.insert(evaluate(subArray));//evaluate current subArray
-                subArray.clear();
-                subArray.insert(lastInsert);
-                subArray.insert({val,1});
-                lastInsert = {val,1};
-            }
-        }
-        else //already in
-        {
-            it->second++;
-            lastInsert = *it;
-        }
-    }
-}
+                break;
 
-int longestSubarray(std::vector<int> arr) {
-
-    std::set<int> length;
-    std::map<int,int> subArray;
-
-    std::pair<int,int> lastInsert;
-    for(std::vector<int>::iterator it0 = arr.begin(); it0 != arr.end(); it0++)
-    {
-        auto alreadyIn = subArray.find(*it0);
-
-        if(alreadyIn != subArray.end())
-        {
-            alreadyIn->second++;
-            lastInsert = *alreadyIn;
+            cnt++;
         }
-        else
-        {
-            insertSubArray(*it0,subArray,length,lastInsert);
-        }
+
+        ans = std::max(ans,cnt);
     }
 
-    length.insert(evaluate(subArray));
-    return *length.rbegin();
+    return ans;
 }
-*/
+
 void check(int sol0, int sol1, int i)
 {
     if(sol0 != sol1)
@@ -204,16 +59,16 @@ void check(int sol0, int sol1, int i)
 int main()
 {
     std::vector<int> input_ex = {0, 1, 2, 1, 2, 3};
-    //check(longestSubarray(input_ex),4,-1);
+    check(longestSubarray(input_ex),4,-1);
 
     std::vector<int> input_0 = {1, 2 ,3, 4, 5};
-    //check(longestSubarray(input_0),2,0);
+    check(longestSubarray(input_0),2,0);
 
     std::vector<int> input_1 = {2, 2, 1};
-    //check(longestSubarray(input_1),3,1);
+    check(longestSubarray(input_1),3,1);
 
     std::vector<int> input_2 = {295331535};
-    //check(longestSubarray(input_2),1,2);
+    check(longestSubarray(input_2),1,2);
 
     std::vector<int> input_3 = {
         157793605
@@ -248,7 +103,7 @@ int main()
        ,157793605
        ,157793605
     };
-    //check(longestSubarray(input_3),31,3);
+    check(longestSubarray(input_3),31,3);
 
     std::vector<int> input_4 = {
         157793605
