@@ -99,5 +99,6 @@ int main()
     long solution2 = 11;
     long mySolution2 = nearlySimilarRectangles(test2);
     assert(mySolution2==solution2);
+    std::cout<<"All tests passed"<<std::endl;
     return 0;
 }

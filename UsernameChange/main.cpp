@@ -86,20 +86,20 @@ int main()
     std::vector<std::string> solution = {"NO","NO","YES","YES","YES","NO","YES","NO","NO","NO","YES"};
     std::vector<std::string> check = possibleChanges(usernames);
 
-    bool right = true;
+    bool correct = true;
     for(size_t a = 0; a < solution.size(); a++)
     {
         if(solution[a] != check[a])
         {
-            right = false;
+            correct = false;
             break;
         }
     }
 
-    if(right)
-        std::cout<<"RIGHT"<<std::endl;
+    if(correct)
+        std::cout<<"Test passed"<<std::endl;
     else
-        std::cout<<"FALSE"<<std::endl;
+        std::cout<<"Test failed"<<std::endl;
 
     return 0;
 }

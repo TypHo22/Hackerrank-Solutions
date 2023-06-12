@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.5)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_subdirectory(ActiveTraders)
+add_subdirectory(BalancedSystemFilesPartition)
+add_subdirectory(SimilarRectangles)
+add_subdirectory(Subarray-sums)
+add_subdirectory(Unexpected-Demand)
+add_subdirectory(UsernameChange)
+add_subdirectory(longest-subarray)
+add_subdirectory(maximum-cost-of-laptop-count)
+add_subdirectory(parallel-processing)
+add_subdirectory(passwordDecrypt)
+add_subdirectory(road-repair)
+add_subdirectory(string-anagram)
+add_subdirectory(vowel-substring)
