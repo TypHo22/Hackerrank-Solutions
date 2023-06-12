@@ -15,34 +15,25 @@ vector<string> split(const string &);
  * The function accepts 2D_LONG_INTEGER_ARRAY sides as parameter.
  */
 
-long ratio (long a, long b, long c, long d)
-{
-    const long ac = a / c;
-    const long bd = b / d;
-
-
-
-}
-
 long nearlySimilarRectangles(vector<vector<long>> sides)
 {
-    int ans = 0;
+
+    long long ans = 0;
     unordered_map<double, int> umap;
 
     for(const auto& s : sides)
     {
-        const double ratio = static_cast<double>(s[0]) / s[1];
+        const double ratio = static_cast<double>(s[0]) / static_cast<double>(s[1]);
         umap[ratio]++;
     }
 
     for (auto x : umap)
-     {
-         int value = x.second;
+    {
+         long long value = x.second;
          if (value > 1)
-         {
              ans += (value * (value - 1)) / 2;
-         }
-     }
+
+    }
 
     return ans;
 }
@@ -110,4 +101,3 @@ int main()
     assert(mySolution2==solution2);
     return 0;
 }
-
