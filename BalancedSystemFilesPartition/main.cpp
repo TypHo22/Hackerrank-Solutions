@@ -85,8 +85,7 @@ int mostBalancedPartition(vector<int> parent, vector<int> files_size)
             continue;
 
         nodes[index].childs_.push_back(&nodes[a]);
-        int d = 3;
-        d++;
+
     }
 
     int sum = root->sumUp();
